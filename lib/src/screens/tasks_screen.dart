@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:to_doof/src/model/task_data.dart';
 import 'package:to_doof/src/screens/add_task_screen.dart';
 import 'package:to_doof/src/widgets/tasks_list.dart';
+import 'package:provider/provider.dart';
 
 class TasksScreen extends StatelessWidget {
+  TextEditingController addTaskController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: Theme.of(context).primaryColor,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -19,11 +22,11 @@ class TasksScreen extends StatelessWidget {
                 CircleAvatar(
                   child: Icon(
                     Icons.list,
-                    color: Colors.lightBlueAccent,
+                    color: Theme.of(context).primaryColor,
                     size: 30.0,
                   ),
                   radius: 30.0,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).backgroundColor,
                 ),
                 SizedBox(height: 10.0),
                 Text(
@@ -34,7 +37,7 @@ class TasksScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "12 Tasks",
+                  "${Provider.of<TaskData>(context).taskCount} Tasks",
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                 )
               ],
@@ -42,8 +45,9 @@ class TasksScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5.0),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30.0),
                   topRight: Radius.circular(30.0),
@@ -56,11 +60,11 @@ class TasksScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
-          showModalBottomSheet(
-              context: context, builder: (context) => AddTaskScreen());
-        },
-        backgroundColor: Colors.lightBlueAccent,
+        onPressed: () => showModalBottomSheet(
+          context: context,
+          builder: (context) => AddTaskScreen(addTaskController),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
